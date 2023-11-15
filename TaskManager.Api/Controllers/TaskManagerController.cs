@@ -41,7 +41,7 @@ public class TaskManagerController : ControllerBase
     /// <response code="202">return task guid</response>
     [HttpPost("task")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
-    public async Task<IActionResult> Task(CancellationToken token)
+    public async Task<IActionResult> CreateEmptyTaskAndRun(CancellationToken token)
     {
         var taskMaganerServiceScope = _serviceScopeFactory
             .CreateScope()
@@ -50,7 +50,7 @@ public class TaskManagerController : ControllerBase
         
         var taskGuid = await taskMaganerServiceScope.CreateTaskDescAsync(token);
         
-        const int twoMinutes = 30000;
+        const int twoMinutes = 120000;
         taskMaganerServiceScope.RunEmptyTaskByIdWithDelay(taskGuid, twoMinutes, token); //No waiting required !!!
 
         return Accepted(taskGuid);
