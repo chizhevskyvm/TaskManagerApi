@@ -16,8 +16,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-/*using (var scope = app.Services.CreateScope())
-    await scope.ServiceProvider.MigrateDbAsync();*/
+using (var scope = app.Services.CreateScope())
+    await scope.ServiceProvider.MigrateDbAsync();
 
 if (app.Environment.IsDevelopment())
 {
