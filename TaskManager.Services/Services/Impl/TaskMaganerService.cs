@@ -56,12 +56,11 @@ public class TaskMaganerService : ITaskMaganerService
         }, cts);
     }
 
-    public async Task<TaskDescStatusDto> GetTaskStatusByIdAsync(Guid id, CancellationToken cts)
+    public async Task<TaskDescStatusDto?> GetTaskStatusByIdAsync(Guid id, CancellationToken cts)
     {
         var task = await _context.TaskEntities
-            .FirstAsync(x => x.Id == id, cts);
-        
-        return _mapper.Map<TaskDescStatusDto>(task);
+            .FirstOrDefaultAsync(x => x.Id == id, cts);
+        return task == null ? null : _mapper.Map<TaskDescStatusDto>(task);
     }
 
     private static void ChangeTaskDescBody(DbContext context, TaskDescEntity taskDescEntity, TaskDescEnitityStatus descEnitityStatus)
